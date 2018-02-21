@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1511181057812.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "940592417",
+    "id" : "D7613B8C",
+    "lastKnownWriteTime" : 1507743037,
+    "last_content_update" : 1507743037,
+    "path" : "X:/My Desktop/Statistic/assignment5/question1.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "41,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,47 @@
+library(dplyr)
+library(GGally)
+library(lmodel2)
+library(tidyverse)
+
+#load csv data
+df = data.frame(time = c(seq(0,8,1)), 
+                temperature = c(98.51,98.50,98.50,98.49,98.51,98.49,98.52,98.47,98.46))
+
+#omitting the value at minute 6
+df <- df[-7,]
+
+#perform a linear regression and show the summary
+z = lm(temperature~time, data=df)
+
+#plot the data as a scatter plot and add the regression line
+#ggplot(df, aes(x=time, y=temperature)) + 
+#  geom_point() + 
+#  geom_abline(intercept = z$coefficients[1],slope = z$coefficients[2])
+
+#get the summary of the linier regression
+summary(z)
+
+#get cook distance
+cook <- cooks.distance(z)
+
+## put the fitted values and Cook's distance into a data frame
+data = data.frame(time= df$time, temperature=df$temperature,fit = fitted(z),
+                  cooks_distance = cook)
+##cut-off value
+cut <- qf(0.5, 2, length(data$fit)-2, lower.tail = FALSE)
+
+#plot the cook distance
+ggplot(data, aes(x=fit, y=cooks_distance)) + 
+  geom_point() +                   # plot fitted values vs. cooks distance for each fitted values
+  geom_hline(yintercept=cut)       # add a horizontal line for the cut-off we calculated
+
+
+#remove row of dataset
+#load csv data
+
+#perform a linear regression and show the summary
+#remove dataframe by index
+new_df <- df[-7,]
+new_z = lm(temperature~time, data=new_df)
+
+summary(new_z)

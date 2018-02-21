@@ -1,0 +1,52 @@
+library(dplyr)
+library(GGally)
+library(lmodel2)
+library(tidyverse)
+
+setwd("X:/My Desktop/Statistic")
+
+#load csv data
+df <- read.csv(file = "assignment5/rock.txt",header = TRUE)
+
+#Fit a linear model for the perimeter as a function of the area. 
+#Calculate the coefficients (i.e slope and intercept), using the equations we learned in the lecture 
+
+#slope
+b1	=	cov(df$area,df$peri)/var(df$area)
+#interceps
+b0	=	mean(df$peri)-b1*mean(df$area)	
+
+#plot the data as a scatter plot and add the regression line
+ggplot(df, aes(x=area, y=peri)) + 
+  geom_point() + 
+  geom_abline(intercept = b0,slope = b1)
+
+#perform a linear regression and show the summary
+z = lm(peri~area, data=df)
+
+#getthe fitted values corresponding to each value of area then get the residuals
+#Add in columns to the df data frame for the fit and res values
+df$fit = fitted(z)
+df$res = residuals(z)
+
+qqnorm(df$res)
+qqline(df$res)
+
+
+#Use the residuals to estimate variance
+var1 = (sum(df$res^2)/(count(df)-2))
+var1
+
+variance = sqrt(sum(z$residuals^2)/(count(df)-2))
+variance
+
+
+#plot them
+ggplot(df, aes(x=fit, y=res)) + geom_point() + ggtitle("residual vs. fitted values")+
+  geom_hline(yintercept  =  variance, linetype="dashed")
+
+summary(z)
+
+#count(df)
+#pt(-1.375,	46,	lower.tail	=	FALSE)*2
+#qt(c(.025, .975), df=46)
